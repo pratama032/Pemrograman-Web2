@@ -12,7 +12,6 @@
 <body>
     <div class="container">
         <h2>Form Registrasi IT Club GDSC</h2>
-
         <form method="POST">
         <div class="form-group row">
             <label for="nim" class="col-4 col-form-label">NIM</label> 
@@ -76,13 +75,15 @@
             <?php } ?>
 
             </div>
-        </div> 
+        </div>
+        <div></div>
         <div class="form-group row">
             <div class="offset-4 col-8">
             <button name="submit" type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
         </form>
+            
         <table class="table table-bordered">
             <tr class="table-warning text-uppercase">
                 <th>nim</th>
@@ -92,6 +93,8 @@
                 <th>domisili</th>
                 <th>program studi</th>
                 <th>skill</th>
+                <th>Poin</th>
+                <th>Predikat</th>
             </tr>
             <?php
             if(isset($_POST['submit'])){
@@ -102,7 +105,23 @@
             $domisili = $_POST['domisili'];
             $program_studi = $_POST['program_studi'];
             $skill_user= $_POST['skill'];
-            ?>
+            $_nilai = 0;
+                foreach($skill_user as $prg) {$_nilai += $skillls[$prg];};
+            $predikat = "";
+                if($_nilai == 0){
+                    $predikat = "Buruk";
+                }elseif($_nilai >0 && $_nilai <=40){
+                    $predikat = "kurang";
+                }elseif($_nilai > 40 && $_nilai <= 60){
+                    $predikat = "Cukup";
+                }elseif($_nilai > 60 && $_nilai <= 100){
+                    $predikat = "Bagus";
+                }elseif($_nilai > 100 && $_nilai <= 150){
+                    $predikat = "Sangat Bagus";
+                }else{
+                    $predikat ="Tidak Memadai";
+                };
+                ?>
             <tr>
                 <td><?=$nim; ?></td>
                 <td><?=$nama; ?></td>
@@ -111,6 +130,8 @@
                 <td><?=$domisili; ?></td>
                 <td><?=$program_studi; ?></td>
                 <td><?php foreach($skill_user as $skill){echo $skill . " ";}; ?></td>
+                <td><?=$_nilai;?></td>
+                <td><?=$predikat;?></td>
             </tr>
             <?php } ?>
         </table>
